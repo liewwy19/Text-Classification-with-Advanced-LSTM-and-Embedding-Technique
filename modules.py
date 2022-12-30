@@ -4,7 +4,14 @@ from tensorflow.keras.utils import plot_model
 from tensorflow.keras.layers import Dense, LSTM, Dropout, Embedding
 
 def text_cleaning(text):
-    
+    """This function removes texts with anomalies such as 
+    URLS, @NAME, WASHINGTON (Reuters) and also to convert
+    text into lowercase. 
+    Args:
+        text (str): Raw text. 
+    Returns:
+        text (str): Cleaned text 
+    """
     # URL (bit.ly/asdjkhk)
     text = re.sub('bit.ly/\d\w{1,10}','',text)
     # @realDonaldTrump
@@ -20,7 +27,16 @@ def text_cleaning(text):
 
 
 def lstm_model_creation(num_words,nb_classes,embedding_layer=64,dropout=0.3,num_neurons=64):
-    
+    """This function creates LSTM model with embedding layer, 2 LSTM layers and 1 output layer
+    Args:
+        num_words (int): number of vocabulary
+        nb_classes (int): number of classes
+        embedding_layer (int, optional): The number of output of embedding layer. Defaults to 64.
+        dropout (float, optional): The rate dropout. Defaults to 0.3.
+        num_neurons (int, optional): Number of brain cells. Defaults to 64.
+    Returns:
+        model: Returns the Model created using sequential api. 
+    """
     model = Sequential()
     model.add(Embedding(num_words,embedding_layer))
     model.add(LSTM(embedding_layer,return_sequences=True)) #,input_shape=(X_train.shape[1:])
